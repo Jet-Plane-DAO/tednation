@@ -2,10 +2,12 @@
 module.exports = {
   content: ["./**/*.{html,js,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      minHeight: { screen: "100vh" },
+    },
   },
   daisyui: {
     themes: ["light", "dark", "night"],
   },
-  plugins: [require("daisyui")],
+  plugins: [require("daisyui"), require("tailwind-scrollbar-hide")],
 };

@@ -9,6 +9,7 @@ import { Leaderboard } from "../home/Leaderboard";
 import { CraftableMaterials } from "../home/CraftableMaterials";
 import { Stats } from "../home/Stats";
 import Layout from "../shared/Layout";
+import { config } from "../../helpers/config";
 
 const Plans = () => {
   const { wallet, connected } = useWallet();
@@ -24,7 +25,7 @@ const Plans = () => {
 
   console.log(campaignConfig);
   return (
-    <Layout>
+    <Layout title={config.plansTitle}>
       {/* <Activity /> */}
       <div className="grid grid-cols-12 gap-5">
         {/* <Leaderboard />

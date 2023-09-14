@@ -22,12 +22,16 @@ const Home = () => {
   }, [wallet, connected]);
 
   return (
-    <Layout>
+    <Layout title="Dashboard">
       <Activity />
-      <div className="grid grid-cols-12 gap-5">
-        <Leaderboard />
-        <CraftableMaterials />
-        <Stats />
+      <div className="grid grid-cols-12 gap-5 h-[600px]">
+        <div className="col-span-8">
+          <Stats />
+          <Leaderboard />
+        </div>
+        <div className="col-span-4">
+          <CraftableMaterials />
+        </div>
       </div>
     </Layout>
   );

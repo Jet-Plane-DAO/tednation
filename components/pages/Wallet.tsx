@@ -5,6 +5,11 @@ import {
 } from "@jetplane/velocity-tools";
 import { useEffect } from "react";
 import Layout from "../shared/Layout";
+import { Assets } from "../wallet/Assets";
+import { Inventory } from "../wallet/Inventory";
+import { History } from "../wallet/History";
+import { CompilePlans } from "../wallet/CompilePlans";
+import { Stats } from "../wallet/Stats";
 
 const Wallet = () => {
   const { wallet, connected } = useWallet();
@@ -19,12 +24,18 @@ const Wallet = () => {
   }, [wallet, connected]);
 
   return (
-    <Layout>
+    <Layout title="My Adventure">
       {/* <Activity /> */}
-      <div className="grid grid-cols-12 gap-5">
-        {/* <Leaderboard />
-        <CraftableMaterials />
-        <Stats /> */}
+      <div className="grid grid-cols-12 gap-5 h-[600px]">
+        <div className="col-span-9 mt-4">
+          <Assets />
+          <Inventory />
+          <CompilePlans />
+        </div>
+        <div className="col-span-3 my-10">
+          <Stats />
+          <History />
+        </div>
       </div>
     </Layout>
   );

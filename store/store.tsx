@@ -20,6 +20,7 @@ const persistConfig = {
   key: "velocity",
   version: 1,
   storage,
+  timeout: 1000,
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
