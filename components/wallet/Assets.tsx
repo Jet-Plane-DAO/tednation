@@ -1,35 +1,59 @@
 import Image from "next/image";
 import { myAssets } from "../../helpers/mockData";
+import { useCraftingCampaign } from "@jetplane/velocity-tools";
+import { useAssets } from "@meshsdk/react";
+import { useEffect, useState } from "react";
+import { Asset } from "@meshsdk/core";
+import useAsset from "../hooks/useAsset";
+import { WaletAsset } from "./Asset";
 
-const Assets = () => {
+const Assets = ({
+  policyId,
+  title,
+  action: { action, status, label },
+}: {
+  policyId: string;
+  title: string;
+  action: any;
+}) => {
+  const assets = useAssets();
+  const { fetchAsset } = useAsset();
+
+  const [myAssets, setMyAssets] = useState<any>(null);
+
+  useEffect(() => {
+    if (assets && !myAssets?.length) {
+      Promise.all(
+        assets
+          .filter((item: Asset) => item.unit.includes(policyId))
+          .map((item: Asset) => fetchAsset(item))
+      ).then((data) => {
+        setMyAssets(data);
+      });
+    }
+  }, [assets, fetchAsset, myAssets?.length, policyId]);
+
   return (
     <div className="w-full space-y-4">
-      <h2 className="card-title">My Adventurers</h2>
+      <h2 className="card-title">{title}</h2>
       <div className=" space-x-5 w-full">
         <div className="flex space-x-5 overflow-x-auto overflow-y-hidden pb-4 mb-4  rounded-2xl">
-          {myAssets.map((item, index) => (
-            <div
-              className=" bg-base-100 shadow-xl w-80 flex flex-col flex-shrink-0 rounded-xl select-none "
-              key={index}
-            >
-              <figure className="w-25 h-25 relative h-[300px]">
-                <Image
-                  className="rounded-t-xl"
-                  src={item.image}
-                  fill={true}
-                  alt="Shoes"
-                ></Image>
-              </figure>
-              <div className="flex flex-col justify-center text-sm text-neutral-content p-5 space-y-2">
-                <div className="flex w-full justify-between text-2xl text-white">
-                  <p>{item.name}</p>
-                  <p>{item.xp}XP</p>
-                </div>
-                <p>{item.stat}</p>
-                <button className="btn">Craft</button>
-              </div>{" "}
-            </div>
-          ))}
+          {myAssets === null && (
+            <WaletAsset item={null} action={null}></WaletAsset>
+          )}
+          {myAssets?.length === 0 && <p>No items found.</p>}
+          {(myAssets || []).map(
+            (
+              { onchain_metadata: item }: { onchain_metadata: any },
+              index: any
+            ) => (
+              <WaletAsset
+                item={item}
+                key={index}
+                action={{ action, status, label }}
+              />
+            )
+          )}
         </div>
       </div>
     </div>
