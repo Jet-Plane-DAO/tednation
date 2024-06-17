@@ -49,7 +49,7 @@ const Nav = () => {
                         {config.projectName}
                     </Link>
                     <ul className="menu menu-horizontal px-1">
-                        <li>
+                        {/* <li>
                             <Link href="/plans">Schematics</Link>
                         </li>
                         <li>
@@ -59,7 +59,7 @@ const Nav = () => {
                             <li>
                                 <Link href="/wallet">My Adventurers</Link>
                             </li>
-                        )}
+                        )} */}
                     </ul>
                 </div>
                 <div className="flex-none gap-2">

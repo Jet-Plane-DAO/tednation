@@ -1,5 +1,5 @@
 import { useWallet } from "@meshsdk/react";
-import { CraftingStatusEnum, useCraftingCampaign } from "@jetplane/velocity-tools";
+import { MintStatusEnum, useMintCampaign } from "@jetplane/velocity-tools";
 import { useEffect } from "react";
 import { Activity } from "../home/Activity";
 import { Leaderboard } from "../home/Leaderboard";
@@ -10,10 +10,10 @@ import ButtonConnect from "../shared/ButtonConnect";
 
 const Home = () => {
     const { wallet, connected, connecting, connect } = useWallet();
-    const { campaignConfig, check, status } = useCraftingCampaign();
+    const { campaignConfig, check, status } = useMintCampaign("mutateds");
 
     useEffect(() => {
-        if (wallet && connected && status === CraftingStatusEnum.INIT) {
+        if (wallet && connected && status === MintStatusEnum.INIT) {
             check();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -21,7 +21,7 @@ const Home = () => {
 
     if (!connected && !connecting) {
         return (
-            <Layout title="Dashboard">
+            <Layout title="Connect Wallet">
                 <div className="flex justify-center items-center h-[600px]">
                     <ButtonConnect />
                 </div>
@@ -29,16 +29,11 @@ const Home = () => {
         );
     }
     return (
-        <Layout title="Dashboard">
+        <Layout title="Mutateds">
             <Activity />
             <div className="grid grid-cols-12 gap-5 h-[600px]">
-                <div className="col-span-8">
-                    <Stats />
-                    <Leaderboard />
-                </div>
-                <div className="col-span-4">
-                    <CraftableMaterials />
-                </div>
+                <div className="col-span-8"></div>
+                <div className="col-span-4"></div>
             </div>
         </Layout>
     );
