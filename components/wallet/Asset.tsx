@@ -7,14 +7,15 @@ const WaletAsset = ({
   item: any;
   action: { action: any; status: any; label: any } | null;
 }) => {
+  const metadata = item?.onchain_metadata;
   return (
-    <div className=" bg-base-100 shadow-xl w-80 flex flex-col flex-shrink-0 rounded-xl select-none ">
+    <div className=" bg-base-100 shadow-xl w-80 flex flex-col flex-shrink-0 rounded-xl select-none " id={`${item?.unit}`}>
       <figure className="w-25 h-25 relative h-[300px]">
-        {item ? (
+        {metadata ? (
           <Image
             className="rounded-t-xl"
             src={`https://ipfs.blockfrost.dev/ipfs/${(
-              item?.image || ""
+              metadata?.image || ""
             ).replace("ipfs://", "")}`}
             width={400}
             height={400}
@@ -28,11 +29,11 @@ const WaletAsset = ({
       </figure>
       <div className="flex flex-col justify-center text-sm text-neutral-content p-5 space-y-2">
         <div className="flex w-full justify-between text-2xl text-white">
-          <p>{item?.name || "???"}</p>
-          {item && <p>{item?.xp}XP</p>}
+          <p>{metadata?.name || "???"}</p>
+          {metadata && <p>{metadata?.role}</p>}
         </div>
-        <p>{item?.stat}</p>
-        <button className="btn">{action && action.label(item)}</button>
+        <p>{metadata?.stat}</p>
+        <button onClick={() => action?.action(item)} className="btn">{action && action.label(item)}</button>
       </div>
     </div>
   );

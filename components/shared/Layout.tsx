@@ -9,7 +9,7 @@ export default function Layout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="w-full h-screen">
+    <div className="w-full h-screen bg-gray-10">
       <div className="container mx-auto px-5 sm:px-0 ">
         <header>
           <Nav />

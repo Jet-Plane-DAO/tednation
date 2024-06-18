@@ -4,7 +4,6 @@ const useAsset = () => {
     const fetchAsset = async (item: Asset) => {
         const allocation = await fetch(`/api/assets/${item.unit}`);
         const response = await allocation.json();
-        console.log(response);
         if (response.status === "address-not-found" || response.data?.status_code === 404) {
             return null;
         }

@@ -21,6 +21,7 @@
         "@reduxjs/toolkit": "^1.9.5",
         "class-names": "^1.0.0",
         "graceful-fs": "^4.2.11",
+        "moment": "^2.30.1",
         "next": "13.0.2",
         "node-fetch": "^3.3.2",
         "react": "18.2.0",

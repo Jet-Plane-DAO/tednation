@@ -1,3 +1,77 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@layer components {
+    .dropdown-button {
+        @apply btn bg-gray-11 w-full tracking-[0.03em] sm:min-h-[38px] sm:h-[38px] min-h-[unset] h-[30px] sm:text-[15px] text-[12px] border-gray-8 hover:border-gray-8 border-[2px] text-white rounded-min space-x-3 justify-between;
+    }
+
+    .dropdown-list {
+        @apply p-0 shadow bg-gray-11 overflow-auto rounded-regular w-full mt-[5px] text-xs border-border-default border-[1px];
+    }
+
+    .dropdown-item {
+        @apply flex px-4 py-[14px] border-b-[1px] border-border-default justify-between flex-1;
+    }
+
+    .dropdown-item > * {
+        @apply flex-1;
+    }
+
+    .dropdown-item.last {
+        @apply border-b-[0];
+    }
+
+    .dropdown.dropdown-open .dropdown-content,
+    .dropdown.dropdown-hover:hover .dropdown-content,
+    .dropdown:not(.dropdown-hover):focus .dropdown-content,
+    .dropdown:not(.dropdown-hover):focus-within .dropdown-content {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .actifity-hum .hamburger-react {
+        margin-top: -1px;
+        margin-bottom: 0;
+        margin-left: -1px;
+    }
+
+    .simple-card {
+        @apply card mt-6 bg-gray-10 border border-[rgba(255,255,255,0.08)] tracking-[0.03em] px-5 py-4 rounded-md text-sm gap-y-4 text-white leading-none;
+    }
+
+    .app-btn {
+        @apply sm:h-[37px] h-[30px] min-h-[unset] px-4 tracking-[0.03em] rounded text-white disabled:text-white sm:text-[15px] text-[12px] border-0 border-t disabled:opacity-30;
+    }
+    .app-btn-primary {
+        @apply border-t-[rgba(244,244,244,0.14)] hover:border-t-[rgba(244,244,244,0.14)] bg-purple-500 hover:bg-purple-600 disabled:bg-purple-500;
+    }
+    .app-btn-secondary {
+        @apply border-t-[rgba(255,255,255,0.08)] hover:border-t-[rgba(255,255,255,0.08)] bg-gray-9 hover:bg-gray-8 disabled:bg-gray-9;
+    }
+    .app-btn-tertiary {
+        @apply border-t-[rgba(255,255,255,0.14)] hover:border-t-[rgba(255,255,255,0.14)] bg-red-500 hover:bg-red-600 disabled:bg-red-600;
+    }
+
+    .simple-block {
+        @apply card mt-6 bg-gray-10 border border-[rgba(255,255,255,0.08)] tracking-[0.03em] px-[10px] py-[10px] overflow-auto rounded-md text-sm gap-y-4 text-white leading-none;
+    }
+
+    hr.default-hr {
+        @apply border-[rgba(255,255,255,0.08)];
+    }
+
+    .pricepool-value {
+        @apply flex-col justify-center text-center py-5;
+    }
+
+    .pricepool-value > h2 {
+        @apply text-[26px] leading-none;
+    }
+    .pricepool-value > p {
+        @apply text-[14px] leading-none text-gray-2;
+    }
+
+}
