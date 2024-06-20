@@ -9,26 +9,29 @@ import Button from "./Button";
 const ButtonConnect: React.FC = () => {
     const [wallets, setWallets] = useState<Wallet[]>([]);
     const connectedWallet = useAppSelector(selectedWallet);
-    const { connected, connect, disconnect } = useWallet();
+    const { connected, connect, disconnect, connecting } = useWallet();
     const [connectedWalletData, setConnectedWalletData] = useState<Wallet | undefined>();
     const dispatch = useAppDispatch();
 
     useEffect(() => {
         const wallets = BrowserWallet.getInstalledWallets();
         setWallets(wallets);
+        // if (!connected && connectedWallet) {
+        //     // connect(connectedWallet);
+        // }
     }, []);
 
     useEffect(() => {
-        if (!connected && connectedWallet) {
-            connect(connectedWallet);
-        }
         if (connected && !connectedWallet) {
             disconnect();
         }
-        if (connected && connectedWallet && !connectedWalletData) {
+    }, [connected, connecting, connectedWallet]);
+
+    useEffect(() => {
+        if (connected) {
             setConnectedWalletData(wallets.find((x) => x.name === connectedWallet));
         }
-    }, [connect, connected, connectedWallet, disconnect, connectedWalletData, wallets]);
+    }, [connectedWallet, connected, wallets]);
 
     const connectWallet = (walletName: string | null) => {
         const elem: any = document.activeElement;
@@ -36,6 +39,8 @@ const ButtonConnect: React.FC = () => {
             elem?.blur();
         }
         dispatch(selectWallet(walletName));
+        console.log("connecting");
+        connect(walletName!);
     };
 
     return (
