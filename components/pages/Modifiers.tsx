@@ -1,8 +1,5 @@
 import { useWallet } from "@meshsdk/react";
-import {
-  CraftingStatusEnum,
-  useCraftingCampaign,
-} from "@jetplane/velocity-tools";
+import { CraftingStatusEnum, useCraftingCampaign } from "@jetplane/velocity-tools";
 import { useEffect } from "react";
 import { Activity } from "../home/Activity";
 import { Leaderboard } from "../home/Leaderboard";
@@ -12,28 +9,26 @@ import Layout from "../shared/Layout";
 import { config } from "../../helpers/config";
 
 const Modifiers = () => {
-  const { wallet, connected } = useWallet();
-  const { campaignConfig, check, status } = useCraftingCampaign();
+    const { wallet, connected } = useWallet();
+    const { campaignConfig, check, status } = useCraftingCampaign();
 
-  useEffect(() => {
-    console.log(wallet, connected, status);
-    if (wallet && connected && status === CraftingStatusEnum.INIT) {
-      check();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [wallet, connected]);
+    useEffect(() => {
+        if (wallet && connected && status === CraftingStatusEnum.INIT) {
+            check();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [wallet, connected]);
 
-  console.log(campaignConfig);
-  return (
-    <Layout title={config.modifiersTitle}>
-      {/* <Activity /> */}
-      <div className="grid grid-cols-12 gap-5">
-        {/* <Leaderboard />
+    return (
+        <Layout title={config.modifiersTitle}>
+            {/* <Activity /> */}
+            <div className="grid grid-cols-12 gap-5">
+                {/* <Leaderboard />
         <CraftableMaterials />
         <Stats /> */}
-      </div>
-    </Layout>
-  );
+            </div>
+        </Layout>
+    );
 };
 
 export default Modifiers;

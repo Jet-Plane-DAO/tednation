@@ -39,7 +39,6 @@ const ButtonConnect: React.FC = () => {
             elem?.blur();
         }
         dispatch(selectWallet(walletName));
-        console.log("connecting");
         connect(walletName!);
     };
 
