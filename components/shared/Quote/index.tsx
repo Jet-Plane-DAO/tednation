@@ -27,7 +27,7 @@ export const Quote = ({ action, quote, fetching, itemName }: { action?: any; quo
                 <div className="flex justify-between">
                     <div className="text-gray-3">Portal Lock Time</div>
                     <div>
-                        {fetching ? <span className="loading loading-spinner loading-sm"></span> : `${((quote?.time && moment.duration(`${quote?.time}`, "hours").asHours()) || 0).toFixed(1)}`}
+                        {fetching ? <span className="loading loading-spinner loading-sm"></span> : `${((quote?.time && moment.duration(`${quote?.time}`, "hours").asHours()) || 0).toFixed(0)}`}
                         {" Hrs"}
                     </div>
                 </div>

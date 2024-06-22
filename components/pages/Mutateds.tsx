@@ -11,6 +11,7 @@ import { WaletAsset } from "../wallet/Asset";
 import { Quote } from "../shared/Quote";
 import useProjectWallet from "../hooks/useProjectWallet";
 import WalletError from "../shared/WalletError.tsx";
+import moment from "moment";
 
 enum MintStepEnum {
     INIT = "INIT",
@@ -29,7 +30,7 @@ const Mutateds = ({ summary }: { summary: any }) => {
     const [buildingTxn, setBuildingTxn] = useState(false);
     const { wallet, connected, connecting, connect } = useWallet();
     const [step, setStep] = useState<MintStepEnum>(MintStepEnum.INIT);
-    const { campaignConfig, check, status, quote, mint } = useMintCampaign("mutateds");
+    const { campaignConfig, craftingData, check, status, quote, mint } = useMintCampaign("mutateds");
     const dispatch = useAppDispatch();
     const { tedsPolicyId, portalPolicyId, fluffAssetId } = useMutated();
     const { verifyQuote, setWalletError, walletError } = useProjectWallet();
@@ -53,6 +54,7 @@ const Mutateds = ({ summary }: { summary: any }) => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [wallet, connected]);
+
 
     useEffect(() => {
         if (!!ted && !!portal) {
@@ -110,7 +112,8 @@ const Mutateds = ({ summary }: { summary: any }) => {
         <Layout title="Mutateds">
             <div className="flex w-full">
                 {step === MintStepEnum.TED && <Assets policyId={tedsPolicyId} title={"Select Ted to Mutate"} action={{ action: selectTed, status: "READY", label: () => "Select" }} />}
-                {step === MintStepEnum.PORTAL && <Assets policyId={portalPolicyId} title={"Select Portal"} action={{ action: selectPortal, status: "READY", label: () => "Select" }} />}
+                {step === MintStepEnum.PORTAL && <Assets policyId={portalPolicyId}
+                    locked={craftingData?.locked} title={"Select Portal"} action={{ action: selectPortal, status: "READY", label: (locked: any) => (locked ? `Unlocks ${moment(locked?.expiresAt._seconds * 1000).fromNow()}` : "Select") }} />}
             </div>
             <div className="flex w-full space-x-2 justify-center">
                 {ted && (

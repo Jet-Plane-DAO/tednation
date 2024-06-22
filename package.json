@@ -20,6 +20,7 @@
         "@meshsdk/react": "^1.1.10-beta.4",
         "@reduxjs/toolkit": "^1.9.5",
         "class-names": "^1.0.0",
+        "classnames": "^2.5.1",
         "graceful-fs": "^4.2.11",
         "moment": "^2.30.1",
         "next": "13.0.2",
