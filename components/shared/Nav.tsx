@@ -43,9 +43,10 @@ const Nav = () => {
 
     return (
         <nav>
-            <div className="navbar bg-base-100">
+            <div className="navbar ">
                 <div className="flex-1">
                     <Link className="btn btn-ghost normal-case text-xl" href={"/"}>
+                        <Image src="/assets/images/ted.webp" width={30} height={30} alt={config.projectName} />
                         {config.projectName}
                     </Link>
                     <ul className="menu menu-horizontal px-1">

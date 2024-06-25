@@ -42,7 +42,7 @@
         @apply card mt-6 bg-gray-10 border border-[rgba(255,255,255,0.08)] tracking-[0.03em] px-5 py-4 rounded-md text-sm gap-y-4 text-white leading-none;
     }
 
-    .app-btn {
+    /* .app-btn {
         @apply sm:h-[37px] h-[30px] min-h-[unset] px-4 tracking-[0.03em] rounded text-white disabled:text-white sm:text-[15px] text-[12px] border-0 border-t disabled:opacity-30;
     }
     .app-btn-primary {
@@ -53,7 +53,7 @@
     }
     .app-btn-tertiary {
         @apply border-t-[rgba(255,255,255,0.14)] hover:border-t-[rgba(255,255,255,0.14)] bg-red-500 hover:bg-red-600 disabled:bg-red-600;
-    }
+    } */
 
     .simple-block {
         @apply card mt-6 bg-gray-10 border border-[rgba(255,255,255,0.08)] tracking-[0.03em] px-[10px] py-[10px] overflow-auto rounded-md text-sm gap-y-4 text-white leading-none;
@@ -74,4 +74,8 @@
         @apply text-[14px] leading-none text-gray-2;
     }
 
+}
+
+.card-title {
+    @apply text-white text-[18px] font-bold;
 }

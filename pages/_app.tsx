@@ -15,7 +15,7 @@ import { LoadingState } from "../components/shared/LoadingState";
 config.autoAddCss = false;
 
 export default function App({ Component, pageProps }: AppProps) {
-  const theme = "night";
+  const theme = "cyberpunk";
   useEffect(() => {
     const body = document.body;
     body.setAttribute("data-theme", theme);

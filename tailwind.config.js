@@ -2,6 +2,9 @@
 module.exports = {
     content: ['./pages/**/*.{html,js,tsx}', './components/**/*.{html,js,tsx}', './constants/global.ts'],
     theme: {
+        backgroundImage: {
+            teds: "url('/assets/images/ted-city.webp')",
+        },
         colors: {
             white: '#FFFFFF',
             white_alpha8: '#FFFFFF14',
@@ -132,6 +135,7 @@ module.exports = {
                     error: '#FB4571',
                 },
             },
+            "cyberpunk",
             'light',
             'dark',
         ],

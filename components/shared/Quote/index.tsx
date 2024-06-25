@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import { ADA_SYMBOL } from "../../../helpers/ada";
 import Button from "../Button";
 
-export const Quote = ({ action, quote, fetching, itemName }: { action?: any; quote: any; fetching: boolean; itemName: string }) => {
+export const Quote = ({ action, quote, fetching, itemName, option }: { action?: any; quote: any; fetching: boolean; itemName: string, option?: any }) => {
     const faction = { decimals: 0, nativeTokenName: "Fluff" };
 
     const price = useCallback(() => {
@@ -18,11 +18,12 @@ export const Quote = ({ action, quote, fetching, itemName }: { action?: any; quo
     if (fetching)
         return (
             <div className="flex flex-col items-center justify-center h-40">
-                <progress className="progress w-[80%] h-4"></progress>
+                <progress className="progress progress-accent w-[80%] h-4"></progress>
             </div>
         );
     return (
         <div className="simple-card text-lg min-w-[400px]">
+            {!!option && option}
             {itemName !== "MUTATION" && (
                 <div className="flex justify-between">
                     <div className="text-gray-3">Portal Lock Time</div>

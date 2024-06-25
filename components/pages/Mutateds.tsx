@@ -119,133 +119,136 @@ const Mutateds = ({ summary }: { summary: any }) => {
         );
     }
     return (
-        <Layout title="Mutateds">
-            {!campaignConfig?.schedules?.find((x: any) => (x.status === 'active') && (x.input === 'public' || x.allocation)) ?
-                <div className="card">
-                    <h2 className="card-title">No active schedule</h2>
-                    <p>There is no active schedule at the moment, please come back later.</p>
-                    {
-                        campaignConfig?.schedules?.sort((a: any, b: any) => moment(a.start).isBefore(moment(b.start))).map((schedule: any) => {
-                            return (
-                                <div key={schedule.path} className="card">
-                                    <h2 className="card-title">{schedule.name}</h2>
-                                    <p>{schedule.input_label}</p>
-                                    <p>Starts {moment(schedule.start).fromNow()}</p>
-                                    {!!schedule.end?.length && <p>Ends {moment(schedule.end).fromNow()}</p>}
-                                    {!!schedule.allocation && <p>Your Allocation: {schedule.allocation}</p>}
+        <div className="w-full h-screen bg-gray-10  bg-teds bg-bottom ">
+            <Layout title="Mutateds">
+                {!campaignConfig?.schedules?.find((x: any) => (x.status === 'active') && (x.input === 'public' || x.allocation)) ?
+                    <div className="card">
+                        <h2 className="card-title">No active schedule</h2>
+                        <p>There is no active schedule at the moment, please come back later.</p>
+                        {
+                            campaignConfig?.schedules?.sort((a: any, b: any) => moment(a.start).isBefore(moment(b.start))).map((schedule: any) => {
+                                return (
+                                    <div key={schedule.path} className="card">
+                                        <h2 className="card-title">{schedule.name}</h2>
+                                        <p>{schedule.input_label}</p>
+                                        <p>Starts {moment(schedule.start).fromNow()}</p>
+                                        {!!schedule.end?.length && <p>Ends {moment(schedule.end).fromNow()}</p>}
+                                        {!!schedule.allocation && <p>Your Allocation: {schedule.allocation}</p>}
+                                    </div>
+                                )
+                            })
+                        }
+                    </div> : <>
+                        <div className="flex w-full">
+                            {step === MintStepEnum.TED && <Assets policyId={tedsPolicyId} title={"Select Ted to Mutate"} action={{ action: selectTed, status: "READY", label: () => "Select" }} />}
+                            {step === MintStepEnum.PORTAL && <Assets policyId={portalPolicyId}
+                                locked={craftingData?.locked} title={"Select Portal"} action={{ action: selectPortal, status: "READY", label: (locked: any) => (locked ? `Unlocks ${moment(locked?.expiresAt._seconds * 1000).fromNow()}` : "Select") }} />}
+                        </div>
+                        <div className="flex w-full space-x-2 justify-center">
+                            {ted && (
+                                <div className="card space-y-4">
+                                    <h2 className="card-title">Selected Ted</h2>
+                                    <WaletAsset
+                                        item={ted}
+                                        key={"ted"}
+                                        action={{
+                                            action: () => {
+                                                setTed(null);
+                                                setStep(MintStepEnum.TED);
+                                            },
+                                            status: "READY",
+                                            label: () => "Cancel",
+                                        }}
+                                    />
                                 </div>
-                            )
-                        })
-                    }
-                </div> : <>
-                    <div className="flex w-full">
-                        {step === MintStepEnum.TED && <Assets policyId={tedsPolicyId} title={"Select Ted to Mutate"} action={{ action: selectTed, status: "READY", label: () => "Select" }} />}
-                        {step === MintStepEnum.PORTAL && <Assets policyId={portalPolicyId}
-                            locked={craftingData?.locked} title={"Select Portal"} action={{ action: selectPortal, status: "READY", label: (locked: any) => (locked ? `Unlocks ${moment(locked?.expiresAt._seconds * 1000).fromNow()}` : "Select") }} />}
-                    </div>
-                    <div className="flex w-full space-x-2 justify-center">
-                        {ted && (
-                            <div className="card space-y-4">
-                                <h2 className="card-title">Selected Ted</h2>
-                                <WaletAsset
-                                    item={ted}
-                                    key={"ted"}
-                                    action={{
-                                        action: () => {
-                                            setTed(null);
+                            )}
+                            {portal && (
+                                <div className="card space-y-4">
+                                    <h2 className="card-title">Selected Portal</h2>
+                                    <WaletAsset
+                                        item={portal}
+                                        key={"portal"}
+                                        action={{
+                                            action: () => {
+                                                setPortal(null);
+                                                setStep(MintStepEnum.PORTAL);
+                                            },
+                                            status: "READY",
+                                            label: () => "Cancel",
+                                        }}
+                                    />
+                                </div>
+                            )}
+                        </div>
+                        {step === MintStepEnum.PAYMENT && (
+                            <div className="flex justify-center items-center">
+                                <div className="card min-w-[400px]">
+
+
+                                    <Quote
+                                        option={<label className="cursor-pointer label">
+                                            <span className="text-white">
+                                                Pay 5A in <span className="text-green-500">$Fluff</span>
+                                            </span>
+                                            <input type="checkbox" className="toggle" checked={useFluff} onChange={() => setUseFluff(!useFluff)} />
+                                        </label>}
+                                        itemName={"Mutation"}
+                                        fetching={fetching}
+                                        quote={quoteResponse}
+                                        action={async () => {
+                                            setBuildingTxn(true);
+                                            try {
+                                                await verifyQuote(quoteResponse);
+                                                await mint(
+                                                    "mutateds",
+                                                    [
+                                                        {
+                                                            unit: ted?.asset,
+                                                            policyId: tedsPolicyId,
+                                                            quantity: "1",
+                                                        },
+                                                        {
+                                                            unit: portal?.asset,
+                                                            policyId: portalPolicyId,
+                                                            quantity: "1",
+                                                        },
+                                                    ],
+                                                    1,
+                                                    useFluff ? 1 : 0
+                                                );
+                                                setTed(null);
+                                                setPortal(null);
+                                            } catch (e) {
+                                                console.log(e);
+                                                setWalletError(e, { ada: quoteResponse.fee, native: quoteResponse.price, assets: [{ ted, portal }] });
+                                                return;
+                                            }
+
+                                            setStep(MintStepEnum.CONFIRM);
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                        )}
+                        {step === MintStepEnum.CONFIRM && (
+                            <div className="flex justify-center items-center">
+                                <div className="card min-w-[400px]">
+                                    <p className="text-white">Your ted has been sent through the portal - your Mutated will appear in your wallet in a few minutes.</p>
+                                    <button
+                                        className="btn"
+                                        onClick={() => {
                                             setStep(MintStepEnum.TED);
-                                        },
-                                        status: "READY",
-                                        label: () => "Cancel",
-                                    }}
-                                />
+                                        }}
+                                    >
+                                        Done
+                                    </button>
+                                </div>
                             </div>
-                        )}
-                        {portal && (
-                            <div className="card space-y-4">
-                                <h2 className="card-title">Selected Portal</h2>
-                                <WaletAsset
-                                    item={portal}
-                                    key={"portal"}
-                                    action={{
-                                        action: () => {
-                                            setPortal(null);
-                                            setStep(MintStepEnum.PORTAL);
-                                        },
-                                        status: "READY",
-                                        label: () => "Cancel",
-                                    }}
-                                />
-                            </div>
-                        )}
-                    </div>
-                    {step === MintStepEnum.PAYMENT && (
-                        <div className="flex justify-center items-center">
-                            <div className="card min-w-[400px]">
-                                <label className="cursor-pointer label">
-                                    <span className="label-text">
-                                        Pay 5A in <span className="text-green-500">$Fluff</span>
-                                    </span>
-                                    <input type="checkbox" className="toggle" checked={useFluff} onChange={() => setUseFluff(!useFluff)} />
-                                </label>
-
-                                <Quote
-                                    itemName={"Mutation"}
-                                    fetching={fetching}
-                                    quote={quoteResponse}
-                                    action={async () => {
-                                        setBuildingTxn(true);
-                                        try {
-                                            await verifyQuote(quoteResponse);
-                                            await mint(
-                                                "mutateds",
-                                                [
-                                                    {
-                                                        unit: ted?.asset,
-                                                        policyId: tedsPolicyId,
-                                                        quantity: "1",
-                                                    },
-                                                    {
-                                                        unit: portal?.asset,
-                                                        policyId: portalPolicyId,
-                                                        quantity: "1",
-                                                    },
-                                                ],
-                                                1,
-                                                useFluff ? 1 : 0
-                                            );
-                                            setTed(null);
-                                            setPortal(null);
-                                        } catch (e) {
-                                            console.log(e);
-                                            setWalletError(e, { ada: quoteResponse.fee, native: quoteResponse.price, assets: [{ ted, portal }] });
-                                            return;
-                                        }
-
-                                        setStep(MintStepEnum.CONFIRM);
-                                    }}
-                                />
-                            </div>
-                        </div>
-                    )}
-                    {step === MintStepEnum.CONFIRM && (
-                        <div className="flex justify-center items-center">
-                            <div className="card min-w-[400px]">
-                                <p>Your ted has been sent through the portal - your Mutated will appear in your wallet in a few minutes.</p>
-                                <button
-                                    className="btn"
-                                    onClick={() => {
-                                        setStep(MintStepEnum.TED);
-                                    }}
-                                >
-                                    Done
-                                </button>
-                            </div>
-                        </div>
-                    )}</>
-            }
-            <WalletError error={walletError} quote={quote} />
-        </Layout>
+                        )}</>
+                }
+                <WalletError error={walletError} quote={quote} />
+            </Layout>
+        </div>
     );
 };
 

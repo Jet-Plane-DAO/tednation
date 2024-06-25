@@ -25,7 +25,7 @@ const Assets = ({ policyId, title, action: { action, status, label }, locked }: 
             <div className="space-x-5">
                 <div className="flex space-x-5 overflow-x-auto overflow-y-hidden pb-4 mb-4  rounded-2xl">
                     {myAssets === null && <WaletAsset item={null} action={null}></WaletAsset>}
-                    {myAssets?.length === 0 && <p>No items found.</p>}
+                    {myAssets?.length === 0 && <p className="text-white">No items found.</p>}
                     {(myAssets || []).map((item: any, index: any) => (
                         <WaletAsset locked={locked?.find(x => x.unit === item.asset)} item={item} key={index} action={{ action, status, label }} />
                     ))}
