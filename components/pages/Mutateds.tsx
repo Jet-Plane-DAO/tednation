@@ -92,30 +92,36 @@ const Mutateds = ({ summary }: { summary: any }) => {
 
     if (!connected && !connecting) {
         return (
-            <Layout title="Connect Wallet">
-                <div className="flex justify-center items-center h-[600px]">
-                    <ButtonConnect />
-                </div>
-            </Layout>
+            <div className="w-full h-screen bg-gray-10  bg-teds bg-bottom ">
+                <Layout title="Connect Wallet">
+                    <div className="flex justify-center items-center h-[600px]">
+                        <ButtonConnect />
+                    </div>
+                </Layout>
+            </div>
         );
     }
     if (!connected && connecting) {
         return (
-            <Layout title="Connecting Wallet">
-                <div className="flex justify-center items-center h-[600px]">
-                    <LoadingState />
-                </div>
-            </Layout>
+            <div className="w-full h-screen bg-gray-10  bg-teds bg-bottom ">
+                <Layout title="Connecting Wallet">
+                    <div className="flex justify-center items-center h-[600px]">
+                        <LoadingState />
+                    </div>
+                </Layout>
+            </div>
         );
     }
 
     if (!campaignConfig) {
         return (
-            <Layout title="Mutateds">
-                <div className="flex justify-center items-center h-[600px]">
-                    <LoadingState />
-                </div>
-            </Layout>
+            <div className="w-full h-screen bg-gray-10  bg-teds bg-bottom ">
+                <Layout title="Mutateds">
+                    <div className="flex justify-center items-center h-[600px]">
+                        <LoadingState />
+                    </div>
+                </Layout>
+            </div>
         );
     }
     return (
