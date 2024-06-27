@@ -257,7 +257,7 @@ const Mutateds = ({ summary }: { summary: any }) => {
                             </div>
                         )}</>
                 }
-                <Assets policyId={mutatedsPolicyId} title={"Your Mutateds"} action={{ action: selectTed, status: "READY", label: () => "Select" }} />
+                {/* <Assets policyId={mutatedsPolicyId} title={"Your Mutateds"} action={{ action: selectTed, status: "READY", label: () => "Select" }} /> */}
 
                 <WalletError error={walletError} quote={quote} />
             </Layout>
