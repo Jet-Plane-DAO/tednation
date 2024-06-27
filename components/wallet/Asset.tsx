@@ -3,7 +3,6 @@ import Image from "next/image";
 
 const WaletAsset = ({ item, action, locked }: { item: any; locked?: any; action: { action: any; status: any; label: any } | null }) => {
     const metadata = item?.onchain_metadata;
-    console.log(metadata)
     return (
         <div className=" bg-base-100 shadow-xl w-80 flex flex-col flex-shrink-0 rounded-xl select-none " id={`${item?.unit}`}>
             <figure className="w-25 h-25 relative h-[300px]">

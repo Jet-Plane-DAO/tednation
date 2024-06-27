@@ -36,7 +36,6 @@ const Mutateds = ({ summary }: { summary: any }) => {
     const { verifyQuote, setWalletError, walletError } = useProjectWallet();
     const [ted, setTed] = useState<any>(null);
     const [portal, setPortal] = useState<any>(null);
-    console.log(summary?.custom?.mutateds)
     useEffect(() => {
         dispatch(initMutated(summary?.custom?.mutateds));
         // eslint-disable-next-line react-hooks/exhaustive-deps
