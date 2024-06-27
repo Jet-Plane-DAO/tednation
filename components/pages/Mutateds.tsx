@@ -85,9 +85,10 @@ const Mutateds = ({ summary }: { summary: any }) => {
     const selectPortal = useCallback(
         (portal: any) => {
             setPortal(portal);
-            setStep(MintStepEnum.PAYMENT);
+            if (!ted) setStep(MintStepEnum.TED);
+            else setStep(MintStepEnum.PAYMENT);
         },
-        [setPortal, setStep]
+        [setPortal, ted, setStep]
     );
 
     if (!connected && !connecting) {
@@ -148,7 +149,10 @@ const Mutateds = ({ summary }: { summary: any }) => {
                         <div className="flex w-full">
                             {step === MintStepEnum.TED && <Assets policyId={tedsPolicyId} title={"Select Ted to Mutate"} action={{ action: selectTed, status: "READY", label: () => "Select" }} />}
                             {step === MintStepEnum.PORTAL && <Assets policyId={portalPolicyId}
-                                locked={craftingData?.locked} title={"Select Portal"} action={{ action: selectPortal, status: "READY", label: (locked: any) => (locked ? `Unlocks ${moment(locked?.expiresAt._seconds * 1000).fromNow()}` : "Select") }} />}
+                                locked={craftingData?.locked} title={"Select Portal"} action={{
+                                    action: selectPortal, status: "READY",
+                                    label: (locked: any) => (locked ? `Unlocks ${moment(locked?.expiresAt._seconds * 1000).fromNow()}` : "Select")
+                                }} />}
                         </div>
                         <div className="flex w-full space-x-2 justify-center">
                             {ted && (
