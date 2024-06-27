@@ -135,11 +135,10 @@ const Mutateds = ({ summary }: { summary: any }) => {
                         <h2 className="card-title">No active schedule</h2>
                         <p>There is no active mint at the moment, please come back later.</p>
                         {
-                            campaignConfig?.schedules?.sort((a: any, b: any) => moment(a.start).isBefore(moment(b.start))).filter((x: any) => x.name !== "Test").reverse().map((schedule: any) => {
+                            campaignConfig?.schedules?.sort((a: any, b: any) => moment(a.start).isBefore(moment(b.start))).filter((x: any) => x.input_label !== "Test").reverse().map((schedule: any) => {
                                 return (
                                     <div key={schedule.path} className="card">
-                                        <h2 className="card-title">{schedule.name}</h2>
-                                        <p>{schedule.input_label}</p>
+                                        <h2 className="card-title">{schedule.input_label}</h2>
                                         <p>Starts {moment(schedule.start).fromNow()}</p>
                                         {!!schedule.end?.length && <p>Ends {moment(schedule.end).fromNow()}</p>}
                                         {!!schedule.allocation && <p>Your Allocation: {schedule.allocation}</p>}
