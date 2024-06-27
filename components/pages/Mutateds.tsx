@@ -75,19 +75,22 @@ const Mutateds = ({ summary }: { summary: any }) => {
 
     const selectTed = useCallback(
         (ted: any) => {
+            check();
             setTed(ted);
             if (!portal) setStep(MintStepEnum.PORTAL);
             else setStep(MintStepEnum.PAYMENT);
         },
-        [setTed, setStep, portal]
+        [setTed, setStep, portal, check]
     );
 
     const selectPortal = useCallback(
         (portal: any) => {
+            check();
             setPortal(portal);
-            setStep(MintStepEnum.PAYMENT);
+            if (!ted) setStep(MintStepEnum.TED);
+            else setStep(MintStepEnum.PAYMENT);
         },
-        [setPortal, setStep]
+        [setPortal, ted, setStep, check]
     );
 
     if (!connected && !connecting) {
@@ -128,11 +131,11 @@ const Mutateds = ({ summary }: { summary: any }) => {
         <div className="w-full h-screen bg-gray-10  bg-teds bg-bottom ">
             <Layout title="Mutateds">
                 {!campaignConfig?.schedules?.find((x: any) => (x.status === 'active') && (x.input === 'public' || x.allocation)) ?
-                    <div className="card">
+                    <div className="card text-white">
                         <h2 className="card-title">No active schedule</h2>
-                        <p>There is no active schedule at the moment, please come back later.</p>
+                        <p>There is no active mint at the moment, please come back later.</p>
                         {
-                            campaignConfig?.schedules?.sort((a: any, b: any) => moment(a.start).isBefore(moment(b.start))).map((schedule: any) => {
+                            campaignConfig?.schedules?.sort((a: any, b: any) => moment(a.start).isBefore(moment(b.start))).filter((x: any) => x.name !== "Test").reverse().map((schedule: any) => {
                                 return (
                                     <div key={schedule.path} className="card">
                                         <h2 className="card-title">{schedule.name}</h2>
@@ -148,7 +151,10 @@ const Mutateds = ({ summary }: { summary: any }) => {
                         <div className="flex w-full">
                             {step === MintStepEnum.TED && <Assets policyId={tedsPolicyId} title={"Select Ted to Mutate"} action={{ action: selectTed, status: "READY", label: () => "Select" }} />}
                             {step === MintStepEnum.PORTAL && <Assets policyId={portalPolicyId}
-                                locked={craftingData?.locked} title={"Select Portal"} action={{ action: selectPortal, status: "READY", label: (locked: any) => (locked ? `Unlocks ${moment(locked?.expiresAt._seconds * 1000).fromNow()}` : "Select") }} />}
+                                locked={craftingData?.locked} title={"Select Portal"} action={{
+                                    action: selectPortal, status: "READY",
+                                    label: (locked: any) => (locked ? `Unlocks ${moment(locked?.expiresAt._seconds * 1000).fromNow()}` : "Select")
+                                }} />}
                         </div>
                         <div className="flex w-full space-x-2 justify-center">
                             {ted && (
