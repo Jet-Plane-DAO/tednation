@@ -75,20 +75,22 @@ const Mutateds = ({ summary }: { summary: any }) => {
 
     const selectTed = useCallback(
         (ted: any) => {
+            check();
             setTed(ted);
             if (!portal) setStep(MintStepEnum.PORTAL);
             else setStep(MintStepEnum.PAYMENT);
         },
-        [setTed, setStep, portal]
+        [setTed, setStep, portal, check]
     );
 
     const selectPortal = useCallback(
         (portal: any) => {
+            check();
             setPortal(portal);
             if (!ted) setStep(MintStepEnum.TED);
             else setStep(MintStepEnum.PAYMENT);
         },
-        [setPortal, ted, setStep]
+        [setPortal, ted, setStep, check]
     );
 
     if (!connected && !connecting) {
@@ -133,7 +135,7 @@ const Mutateds = ({ summary }: { summary: any }) => {
                         <h2 className="card-title">No active schedule</h2>
                         <p>There is no active mint at the moment, please come back later.</p>
                         {
-                            campaignConfig?.schedules?.sort((a: any, b: any) => moment(a.start).isBefore(moment(b.start))).map((schedule: any) => {
+                            campaignConfig?.schedules?.sort((a: any, b: any) => moment(a.start).isBefore(moment(b.start))).filter((x: any) => x.name !== "Test").reverse().map((schedule: any) => {
                                 return (
                                     <div key={schedule.path} className="card">
                                         <h2 className="card-title">{schedule.name}</h2>
