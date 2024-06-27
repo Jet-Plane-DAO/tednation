@@ -32,11 +32,11 @@ const Mutateds = ({ summary }: { summary: any }) => {
     const [step, setStep] = useState<MintStepEnum>(MintStepEnum.INIT);
     const { campaignConfig, craftingData, check, status, quote, mint } = useMintCampaign("mutateds");
     const dispatch = useAppDispatch();
-    const { tedsPolicyId, portalPolicyId, fluffAssetId } = useMutated();
+    const { tedsPolicyId, portalPolicyId, fluffAssetId, mutatedsPolicyId } = useMutated();
     const { verifyQuote, setWalletError, walletError } = useProjectWallet();
     const [ted, setTed] = useState<any>(null);
     const [portal, setPortal] = useState<any>(null);
-
+    console.log(summary?.custom?.mutateds)
     useEffect(() => {
         dispatch(initMutated(summary?.custom?.mutateds));
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -257,6 +257,8 @@ const Mutateds = ({ summary }: { summary: any }) => {
                             </div>
                         )}</>
                 }
+                <Assets policyId={mutatedsPolicyId} title={"Your Mutateds"} action={{ action: selectTed, status: "READY", label: () => "Select" }} />
+
                 <WalletError error={walletError} quote={quote} />
             </Layout>
         </div>
