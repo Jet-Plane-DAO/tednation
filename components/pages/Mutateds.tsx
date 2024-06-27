@@ -128,9 +128,9 @@ const Mutateds = ({ summary }: { summary: any }) => {
         <div className="w-full h-screen bg-gray-10  bg-teds bg-bottom ">
             <Layout title="Mutateds">
                 {!campaignConfig?.schedules?.find((x: any) => (x.status === 'active') && (x.input === 'public' || x.allocation)) ?
-                    <div className="card">
+                    <div className="card text-white">
                         <h2 className="card-title">No active schedule</h2>
-                        <p>There is no active schedule at the moment, please come back later.</p>
+                        <p>There is no active mint at the moment, please come back later.</p>
                         {
                             campaignConfig?.schedules?.sort((a: any, b: any) => moment(a.start).isBefore(moment(b.start))).map((schedule: any) => {
                                 return (
