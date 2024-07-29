@@ -3,17 +3,15 @@ import { useCallback } from "react";
 import { ADA_SYMBOL } from "../../../helpers/ada";
 import Button from "../Button";
 
-export const Quote = ({ action, quote, fetching, itemName, option }: { action?: any; quote: any; fetching: boolean; itemName: string, option?: any }) => {
-    const faction = { decimals: 0, nativeTokenName: "Fluff" };
-
+export const Quote = ({ action, quote, fetching, itemName, option, token }: { action?: any; quote: any; fetching: boolean; itemName: string; option?: any; token?: { name: string; decimals: number } }) => {
     const price = useCallback(() => {
         let price = quote?.price;
         if (!price) return "?";
-        if (faction?.decimals) {
-            price = price / Math.pow(10, faction.decimals);
+        if (token?.decimals) {
+            price = price / Math.pow(10, token.decimals);
         }
         return Number(price.toFixed(price < 50 ? 2 : 0)).toLocaleString();
-    }, [faction.decimals, quote?.price]);
+    }, [token?.decimals, quote?.price]);
 
     if (fetching)
         return (
@@ -37,7 +35,7 @@ export const Quote = ({ action, quote, fetching, itemName, option }: { action?: 
                 <div className="flex justify-between">
                     <div className="text-gray-3">Native token Fee</div>
                     <div>
-                        {fetching ? <span className="loading loading-spinner loading-sm"></span> : price()} ${faction.nativeTokenName}
+                        {fetching ? <span className="loading loading-spinner loading-sm"></span> : price()} ${token?.name}
                     </div>
                 </div>
             )}

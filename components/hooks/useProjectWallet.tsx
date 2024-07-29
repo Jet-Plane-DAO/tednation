@@ -47,9 +47,17 @@ const useProjectWallet = () => {
         if (!connected || !quote) return;
         const balances = await wallet.getBalance();
         if (quote?.price) {
-            const tokenBalance = parseInt(balances.find((x: any) => x.unit === fluffAssetId)?.quantity || "0");
-            if (tokenBalance < quote.price) {
-                throw new Error(`Insufficient $${"Fluff"}`);
+            const angelsAssetId = "285b65ae63d4fad36321384ec61edfd5187b8194fff89b5abe9876da414e47454c53";
+            if (quote?.currency === angelsAssetId) {
+                const tokenBalance = parseInt(balances.find((x: any) => x.unit === angelsAssetId)?.quantity || "0");
+                if (tokenBalance < quote.price / 6) {
+                    throw new Error(`Insufficient $${"Angels"}`);
+                }
+            } else {
+                const tokenBalance = parseInt(balances.find((x: any) => x.unit === fluffAssetId)?.quantity || "0");
+                if (tokenBalance < quote.price) {
+                    throw new Error(`Insufficient $${"Fluff"}`);
+                }
             }
         }
         if (quote?.fee) {
