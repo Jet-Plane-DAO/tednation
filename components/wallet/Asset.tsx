@@ -18,7 +18,6 @@ const WaletAsset = ({ item, action, locked }: { item: any; locked?: any; action:
             <div className="flex flex-col justify-center text-sm text-neutral-content p-5 space-y-2">
                 <div className="flex w-full justify-between text-2xl text-black">
                     <p>{metadata?.name || ""}</p>
-                    {metadata && <p>{metadata?.role}</p>}
                 </div>
                 <p>{metadata?.stat}</p>
                 <button onClick={() => action?.action(item)} className="btn" disabled={locked !== undefined}>

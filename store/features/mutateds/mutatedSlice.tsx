@@ -7,6 +7,7 @@ export interface MutatedState {
     fluffAssetId: string;
     portalPolicyId: string;
     tedsPolicyId: string;
+    mutatedsPolicyId: string;
 }
 
 export enum MutatedSection {
@@ -23,6 +24,7 @@ const initialState: MutatedState = {
     fluffAssetId: "",
     portalPolicyId: "",
     tedsPolicyId: "",
+    mutatedsPolicyId: "",
 };
 
 export const mutatedSlice = createSlice({
@@ -33,6 +35,7 @@ export const mutatedSlice = createSlice({
             state.fluffAssetId = action.payload.fluffAssetId;
             state.portalPolicyId = action.payload.portalPolicyId;
             state.tedsPolicyId = action.payload.tedsPolicyId;
+            state.mutatedsPolicyId = action.payload.mutatedsPolicyId
         },
     },
 });
