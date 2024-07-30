@@ -224,7 +224,7 @@ const Mutateds = ({ summary }: { summary: any }) => {
                                                 </label>
                                                 <label className="cursor-pointer label">
                                                     <span className="text-white">
-                                                        Pay 34A in <span className="text-secondary">$Angels</span>
+                                                        Pay 33A in <span className="text-secondary">$Angels</span>
                                                     </span>
                                                     <input
                                                         type="checkbox"
