@@ -7,7 +7,7 @@ import { Asset } from "@meshsdk/core";
 import useAsset from "../hooks/useAsset";
 import { WaletAsset } from "./Asset";
 
-const Assets = ({ policyId, title, action: { action, status, label }, locked }: { policyId: string; title: string; action: any, locked?: any[] }) => {
+const Assets = ({ policyId, title, action: { action, status, label }, locked, small }: { policyId: string; title: string; action: any, locked?: any[], small?: boolean }) => {
     const assets = useAssets();
     const { fetchAsset } = useAsset();
 
@@ -27,7 +27,7 @@ const Assets = ({ policyId, title, action: { action, status, label }, locked }: 
                     {myAssets === null && <WaletAsset item={null} action={null}></WaletAsset>}
                     {myAssets?.length === 0 && <p className="text-white">No items found.</p>}
                     {(myAssets || []).map((item: any, index: any) => (
-                        <WaletAsset locked={locked?.find(x => x.unit === item.asset)} item={item} key={index} action={{ action, status, label }} />
+                        <WaletAsset locked={locked?.find(x => x.unit === item.asset)} item={item} key={index} action={{ action, status, label }} small={small} />
                     ))}
                 </div>
             </div>

@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import { ADA_SYMBOL } from "../../../helpers/ada";
 import Button from "../Button";
 
-export const Quote = ({ action, quote, fetching, itemName, option, token }: { action?: any; quote: any; fetching: boolean; itemName: string; option?: any; token?: { name: string; decimals: number } }) => {
+export const Quote = ({ action, quote, fetching, itemName, option, token, portal }: { action?: any; quote: any; fetching: boolean; itemName: string; option?: any; token?: { name: string; decimals: number }; portal?: any }) => {
     const price = useCallback(() => {
         let price = quote?.price;
         if (!price) return "?";
@@ -22,7 +22,7 @@ export const Quote = ({ action, quote, fetching, itemName, option, token }: { ac
     return (
         <div className="simple-card text-lg min-w-[400px]">
             {!!option && option}
-            {itemName !== "MUTATION" && (
+            {itemName !== "MUTATION" && portal && (
                 <div className="flex justify-between">
                     <div className="text-gray-3">Portal Lock Time</div>
                     <div>

@@ -1,11 +1,11 @@
 import classNames from "classnames";
 import Image from "next/image";
 
-const WaletAsset = ({ item, action, locked }: { item: any; locked?: any; action: { action: any; status: any; label: any } | null }) => {
+const WaletAsset = ({ item, action, locked, small }: { item: any; locked?: any; action: { action: any; status: any; label: any } | null, small?: boolean }) => {
     const metadata = item?.onchain_metadata;
     return (
-        <div className=" bg-base-100 shadow-xl w-80 flex flex-col flex-shrink-0 rounded-xl select-none " id={`${item?.unit}`}>
-            <figure className="w-25 h-25 relative h-[300px]">
+        <div className={classNames(" bg-base-100 shadow-xl flex flex-col flex-shrink-0 rounded-xl select-none ", small ? "w-40" : "w-80")} id={`${item?.unit}`}>
+            <figure className={classNames(small  ? "w-25 h-[100px]" : "h-[300px]", "relative ")}>
                 {metadata ? (
                     <Image className={classNames("rounded-t-xl", locked !== undefined && 'grayscale', 'object-fill')}
                         style={{ objectFit: "cover" }} src={`https://ipfs.blockfrost.dev/ipfs/${(metadata?.image || "").replace("ipfs://", "")}`} width={400} height={400} alt="Teds"></Image>

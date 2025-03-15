@@ -56,11 +56,15 @@ const Mutateds = ({ summary }: { summary: any }) => {
     }, [wallet, connected]);
 
     useEffect(() => {
-        if (!!ted && !!portal) {
+        if (!!ted) {
+            let campaign = useAngels ? "mutateds-angels" : "mutateds";
+            if (!portal) campaign = useAngels ? "mutateds-angels-no-portal" : "mutateds-no-portal";
+            let assets = [ted.asset];
+            if (portal) assets.push(portal.asset);
             setQuoteResponse(null);
             setFetching(true);
             setError(null);
-            quote(useAngels ? "mutateds-angels" : "mutateds", [ted.asset, portal.asset], 1, useFluff || useAngels ? 1 : 0)
+            quote(campaign, assets, 1, useFluff || useAngels ? 1 : 0)
                 .then((response: any) => {
                     setQuoteResponse(response?.quote);
                     setFetching(false);
@@ -76,8 +80,7 @@ const Mutateds = ({ summary }: { summary: any }) => {
         (ted: any) => {
             check();
             setTed(ted);
-            if (!portal) setStep(MintStepEnum.PORTAL);
-            else setStep(MintStepEnum.PAYMENT);
+             setStep(MintStepEnum.PAYMENT);
         },
         [setTed, setStep, portal, check]
     );
@@ -152,18 +155,7 @@ const Mutateds = ({ summary }: { summary: any }) => {
                     <>
                         <div className="flex w-full">
                             {step === MintStepEnum.TED && <Assets policyId={tedsPolicyId} title={"Select Ted to Mutate"} action={{ action: selectTed, status: "READY", label: () => "Select" }} />}
-                            {step === MintStepEnum.PORTAL && (
-                                <Assets
-                                    policyId={portalPolicyId}
-                                    locked={craftingData?.locked}
-                                    title={"Select Portal"}
-                                    action={{
-                                        action: selectPortal,
-                                        status: "READY",
-                                        label: (locked: any) => (locked ? `Unlocks ${moment(locked?.expiresAt._seconds * 1000).fromNow()}` : "Select"),
-                                    }}
-                                />
-                            )}
+                            
                         </div>
                         <div className="flex w-full space-x-2 justify-center">
                             {ted && (
@@ -202,9 +194,22 @@ const Mutateds = ({ summary }: { summary: any }) => {
                             )}
                         </div>
                         {step === MintStepEnum.PAYMENT && (
+                           <div>
+                                <Assets
+                                    small
+                                    policyId={portalPolicyId}
+                                    locked={craftingData?.locked}
+                                    title={"Select Portal (Optional)"}
+                                    action={{
+                                        action: selectPortal,
+                                        status: "READY",
+                                        label: (locked: any) => (locked ? `Unlocks ${moment(locked?.expiresAt._seconds * 1000).fromNow()}` : "Select"),
+                                    }}
+                                />
                             <div className="flex justify-center items-center">
                                 <div className="card min-w-[400px]">
                                     <Quote
+                                        portal={portal?.asset}
                                         token={useFluff ? { name: "Fluff", decimals: 0 } : { name: "Angels", decimals: 6 }}
                                         option={
                                             <>
@@ -245,20 +250,21 @@ const Mutateds = ({ summary }: { summary: any }) => {
                                             setBuildingTxn(true);
                                             try {
                                                 await verifyQuote(quoteResponse);
-                                                await mint(
-                                                    useAngels ? "mutateds-angels" : "mutateds",
-                                                    [
-                                                        {
+                                                let campaign = useAngels ? "mutateds-angels" : "mutateds";
+                                                if (!portal) campaign = useAngels ? "mutateds-angels-no-portal" : "mutateds-no-portal";
+                                                let assets = [{
                                                             unit: ted?.asset,
                                                             policyId: tedsPolicyId,
                                                             quantity: "1",
-                                                        },
-                                                        {
-                                                            unit: portal?.asset,
-                                                            policyId: portalPolicyId,
-                                                            quantity: "1",
-                                                        },
-                                                    ],
+                                                        }];
+                                                if (portal) assets.push({
+                                                    unit: portal?.asset,
+                                                    policyId: portalPolicyId,
+                                                    quantity: "1",
+                                                });
+                                                await mint(
+                                                    campaign,
+                                                    assets,
                                                     1,
                                                     useFluff || useAngels ? 1 : 0
                                                 );
@@ -274,6 +280,7 @@ const Mutateds = ({ summary }: { summary: any }) => {
                                         }}
                                     />
                                 </div>
+                            </div>
                             </div>
                         )}
                         {step === MintStepEnum.CONFIRM && (
