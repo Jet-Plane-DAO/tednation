@@ -27,9 +27,8 @@ const Mutateds = ({ summary }: { summary: any }) => {
     const [error, setError] = useState<any>(null);
     const [fetching, setFetching] = useState(false);
     const [useFluff, setUseFluff] = useState(false);
-    const [useAngels, setUseAngels] = useState(false);
     const [buildingTxn, setBuildingTxn] = useState(false);
-    const { wallet, connected, connecting, connect } = useWallet();
+    const { wallet, connected, connecting } = useWallet();
     const [step, setStep] = useState<MintStepEnum>(MintStepEnum.INIT);
     const { campaignConfig, craftingData, check, status, quote, mint } = useMintCampaign("mutateds");
     const dispatch = useAppDispatch();
@@ -57,14 +56,14 @@ const Mutateds = ({ summary }: { summary: any }) => {
 
     useEffect(() => {
         if (!!ted) {
-            let campaign = useAngels ? "mutateds-angels" : "mutateds";
-            if (!portal) campaign = useAngels ? "mutateds-angels-no-portal" : "mutateds-no-portal";
+            let campaign = "mutateds";
+            if (!portal) campaign = "mutateds-no-portal";
             let assets = [ted.asset];
             if (portal) assets.push(portal.asset);
             setQuoteResponse(null);
             setFetching(true);
             setError(null);
-            quote(campaign, assets, 1, useFluff || useAngels ? 1 : 0)
+            quote(campaign, assets, 1, useFluff ? 1 : 0)
                 .then((response: any) => {
                     setQuoteResponse(response?.quote);
                     setFetching(false);
@@ -74,7 +73,7 @@ const Mutateds = ({ summary }: { summary: any }) => {
                 });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [ted, portal, useFluff, useAngels]);
+    }, [ted, portal, useFluff]);
 
     const selectTed = useCallback(
         (ted: any) => {
@@ -210,7 +209,7 @@ const Mutateds = ({ summary }: { summary: any }) => {
                                 <div className="card min-w-[400px]">
                                     <Quote
                                         portal={portal?.asset}
-                                        token={useFluff ? { name: "Fluff", decimals: 0 } : { name: "Angels", decimals: 6 }}
+                                        token={{ name: "Fluff", decimals: 0 }}
                                         option={
                                             <>
                                                 <label className="cursor-pointer label">
@@ -222,22 +221,7 @@ const Mutateds = ({ summary }: { summary: any }) => {
                                                         className="toggle"
                                                         checked={useFluff}
                                                         onChange={() => {
-                                                            if (useAngels && !useFluff) setUseAngels(false);
                                                             return setUseFluff(!useFluff);
-                                                        }}
-                                                    />
-                                                </label>
-                                                <label className="cursor-pointer label">
-                                                    <span className="text-white">
-                                                        Pay with <span className="text-secondary">$Angels</span>
-                                                    </span>
-                                                    <input
-                                                        type="checkbox"
-                                                        className="toggle"
-                                                        checked={useAngels}
-                                                        onChange={() => {
-                                                            if (useFluff && !useAngels) setUseFluff(false);
-                                                            return setUseAngels(!useAngels);
                                                         }}
                                                     />
                                                 </label>
@@ -250,8 +234,8 @@ const Mutateds = ({ summary }: { summary: any }) => {
                                             setBuildingTxn(true);
                                             try {
                                                 await verifyQuote(quoteResponse);
-                                                let campaign = useAngels ? "mutateds-angels" : "mutateds";
-                                                if (!portal) campaign = useAngels ? "mutateds-angels-no-portal" : "mutateds-no-portal";
+                                                let campaign = "mutateds";
+                                                if (!portal) campaign = "mutateds-no-portal";
                                                 let assets = [{
                                                             unit: ted?.asset,
                                                             policyId: tedsPolicyId,
@@ -266,7 +250,7 @@ const Mutateds = ({ summary }: { summary: any }) => {
                                                     campaign,
                                                     assets,
                                                     1,
-                                                    useFluff || useAngels ? 1 : 0
+                                                    useFluff ? 1 : 0
                                                 );
                                                 setTed(null);
                                                 setPortal(null);
